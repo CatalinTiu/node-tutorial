@@ -3,7 +3,6 @@ var path = require("path");
 var http = require("http");
 
 const convert = () => {
-  var value;
   var filePath = path.join(__dirname, "CSV_file.csv");
   var f = fs.readFileSync(filePath, { encoding: "utf-8" }, function (err) {
     console.log(err);
@@ -28,13 +27,8 @@ const convert = () => {
     console.log(err);
   });
 
-  fs.readFile(__dirname + "/newJson.json", function (err, data) {
-    if (err) {
-      throw err;
-    }
-    value = data;
-  });
-  return value;
+  const data = fs.readFileSync(__dirname + "/newJson.json");
+  return data;
 };
 
 module.exports = { convert };
