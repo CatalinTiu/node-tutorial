@@ -1,23 +1,26 @@
 const https = require("https");
 const fs = require("fs");
 
-const url = "https://gbfs.citibikenyc.com/gbfs/en/station_information.json";
+const jsonAPI = () => {
+  const url = "https://gbfs.citibikenyc.com/gbfs/en/station_information.json";
+  https
+    .get(url, (res) => {
+      let data = "";
 
-https
-  .get(url, (res) => {
-    let data = "";
-
-    res.on("data", (chunk) => {
-      data += chunk;
-    });
-
-    res.on("end", () => {
-      fs.writeFile("json_from_api.txt", data, (err) => {
-        if (err) throw err;
-        console.log("success");
+      res.on("data", (chunk) => {
+        data += chunk;
       });
+
+      res.on("end", () => {
+        fs.writeFile("json_from_api.txt", data, (err) => {
+          if (err) throw err;
+          console.log("Success");
+        });
+      });
+    })
+    .on("error", (err) => {
+      console.log("error");
     });
-  })
-  .on("error", (err) => {
-    console.log("error");
-  });
+};
+
+module.exports = { jsonAPI };
